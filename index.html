@@ -670,7 +670,7 @@ const HERO_IMG = "data:image/jpeg;base64,/9j/4QDKRXhpZgAATU0AKgAAAAgABgESAAMAAAA
 const ADMIN_PASSWORD = "Eumerecuso2k26";
 const DEFAULT_SETTINGS = {
   whatsapp: "5567999627359",
-  catalogVersion: 3,
+  catalogVersion: 4,
   instagram: "emr_oficial",
   heroTitle: "EU ME RECUSO",
   heroSub: "Mais do que roupas.<br><b>Uma mentalidade.</b>",
@@ -696,6 +696,7 @@ function defaultProducts(){
     {"id":"emr-1972","name":"Camiseta Lacoste Vermelha","price":39.9,"desc":"Camiseta vermelha básica com logo discreto e acabamento premium.","category":"Camisetas","sizes":["M","G","GG"],"available":true,"isNew":true,"best":false,"image":"assets/IMG_1972.jpg"},
     {"id":"emr-1970","name":"Camiseta Brookfield Crew Branca","price":39.9,"desc":"Camiseta branca Brookfield Crew com estampa náutica em azul-marinho.","category":"Camisetas","sizes":["M","G","GG"],"available":true,"isNew":true,"best":false,"image":"assets/IMG_1970.jpg"},
     {"id":"emr-1969","name":"Camiseta Brookfield Crew Preta","price":39.9,"desc":"Camiseta preta Brookfield Crew com estampa branca de inspiração náutica.","category":"Camisetas","sizes":["M","G","GG"],"available":true,"isNew":true,"best":false,"image":"assets/IMG_1969.jpg"},
+    {"id":"emr-2137","name":"Camiseta Lacoste Lilás Raquetes","price":39.9,"desc":"Camiseta lilás com logo discreto na frente e estampa de raquetes nas costas.","category":"Camisetas","sizes":["M","G","GG"],"available":true,"isNew":true,"best":false,"image":"assets/IMG_2137.PNG"},
   ];
 }
 
@@ -722,7 +723,7 @@ async function loadData(){
     storedSettings = s ? JSON.parse(s.value) : null;
     settings = s ? {...DEFAULT_SETTINGS, ...storedSettings} : {...DEFAULT_SETTINGS};
   }catch(e){ settings = {...DEFAULT_SETTINGS}; }
-  if(storedProducts && (!storedSettings || storedSettings.catalogVersion !== 3)){
+  if(storedProducts && (!storedSettings || storedSettings.catalogVersion !== 4)){
     const migrationPrices = new Map([
       ["emr-1976",39.9], ["emr-1975",39.9], ["emr-1974",39.9], ["emr-1973",39.9],
       ["emr-1971",39.9], ["emr-1972",39.9], ["emr-1970",39.9], ["emr-1969",39.9],
@@ -731,7 +732,7 @@ async function loadData(){
     const existingIds = new Set(products.map(p=>p.id));
     const additions = defaultProducts().filter(p=>!existingIds.has(p.id));
     if(additions.length) products = products.concat(additions);
-    settings.catalogVersion = 3;
+    settings.catalogVersion = 4;
     await saveProducts();
     await saveSettings();
   }
@@ -837,6 +838,7 @@ const CUSTOM_WPP_INTROS = {
   "emr-1972": "Olá! Vim pelo site da EMR e quero a Camiseta Lacoste Vermelha para destacar o meu look.",
   "emr-1970": "Olá! Vim pelo site da EMR e escolhi a Camiseta Brookfield Crew Branca com estampa náutica.",
   "emr-1969": "Olá! Vim pelo site da EMR e quero a Camiseta Brookfield Crew Preta com estampa náutica.",
+  "emr-2137": "Olá! Vim pelo site da EMR e escolhi a Camiseta Lacoste Lilás Raquetes, com estampa de raquetes nas costas. Quero garantir a minha.",
 };
 function waMessage(p, size, quantity){
   const intro = CUSTOM_WPP_INTROS[p.id] || "Olá! Vim pelo site da EMR.";
