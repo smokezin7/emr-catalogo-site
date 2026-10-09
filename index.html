@@ -80,26 +80,34 @@
   /* ---------- HERO ---------- */
   #hero{
     position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    text-align:center;overflow:hidden;padding:120px 24px 90px;
+    text-align:center;overflow:hidden;padding:120px 24px 90px;background:#000;
   }
-  #hero .bg{
-    position:absolute;inset:0;z-index:0;
-    background-image:linear-gradient(180deg,rgba(0,0,0,.35) 0%, rgba(0,0,0,.55) 45%, #000 92%),
-      radial-gradient(ellipse at 50% 20%, rgba(255,255,255,.05), transparent 60%),
-      var(--hero-img);
-    background-size:cover;background-position:center 18%;
-    filter:grayscale(45%) contrast(1.05);
-    transform:scale(1.08);
-    animation:heroZoom 16s var(--ease) forwards;
+  #hero .bg{position:absolute;inset:0;z-index:0;overflow:hidden;background:#050505;}
+  #hero .hero-video{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
+    filter:grayscale(38%) contrast(1.08) brightness(.7);transform:scale(1.08);
+    animation:heroZoom 18s var(--ease) forwards;
+  }
+  #hero .bg::before{
+    content:'';position:absolute;inset:0;z-index:1;
+    background:linear-gradient(180deg,rgba(0,0,0,.52) 0%,rgba(0,0,0,.32) 38%,rgba(0,0,0,.7) 82%,#000 100%),
+      radial-gradient(ellipse at 50% 28%,rgba(255,255,255,.1),transparent 58%);
+  }
+  #hero .bg::after{
+    content:'';position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.18;
+    background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);
+    background-size:72px 72px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.6),transparent 72%);
   }
   @keyframes heroZoom{from{transform:scale(1.14);}to{transform:scale(1.02);}}
-  .hero-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;opacity:0;animation:heroIn 1s var(--ease) .3s forwards;}
+  .hero-content{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;opacity:0;animation:heroIn 1s var(--ease) .3s forwards;}
   @keyframes heroIn{to{opacity:1;transform:translateY(0);}from{transform:translateY(18px);}}
   .hero-logo{
     font-family:'Poppins',sans-serif;font-weight:900;font-size:15px;letter-spacing:.4em;
-    border:1px solid var(--line-strong);padding:9px 18px;border-radius:999px;margin-bottom:34px;color:#eee;
+    border:1px solid rgba(255,255,255,.3);padding:9px 18px;border-radius:999px;margin-bottom:34px;color:#eee;
+    background:rgba(0,0,0,.18);backdrop-filter:blur(8px);animation:heroBadge 1s var(--ease) .65s both;
   }
-  .hero-title{font-size:clamp(52px,10vw,132px);line-height:.92;margin-bottom:22px;}
+  @keyframes heroBadge{from{opacity:0;transform:translateY(12px) scale(.96);}to{opacity:1;transform:none;}}
+  .hero-title{font-size:clamp(52px,10vw,132px);line-height:.92;margin-bottom:22px;text-shadow:0 8px 36px rgba(0,0,0,.32);}
   .hero-title .cut{position:relative;display:inline-block;}
   .hero-title .cut::after{
     content:'';position:absolute;left:-2%;right:-2%;top:52%;height:3px;background:#fff;
@@ -119,7 +127,7 @@
   .btn-outline{border:1px solid var(--line-strong);color:#fff;}
   .btn-outline:hover{transform:translateY(-2px);border-color:#fff;background:rgba(255,255,255,.06);}
   .btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;}
-  .scroll-cue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.6;}
+  .scroll-cue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.6;}
   .scroll-cue .line{width:1px;height:34px;background:linear-gradient(#fff,transparent);animation:scrollCue 1.8s ease-in-out infinite;}
   @keyframes scrollCue{0%{transform:scaleY(.3);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform-origin:bottom;}100%{transform:scaleY(.3);transform-origin:bottom;}}
 
@@ -378,7 +386,11 @@
 
 <!-- ================= HERO ================= -->
 <section id="hero" class="section-cut">
-  <div class="bg"></div>
+  <div class="bg">
+    <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_091828_e240eb17-6edc-4129-ad9d-98678e3fd238.mp4" type="video/mp4">
+    </video>
+  </div>
   <div class="hero-content">
     <div class="hero-logo">EMR</div>
     <h1 class="hero-title h-display"><span class="cut">EU ME RECUSO</span></h1>
@@ -670,7 +682,7 @@ const HERO_IMG = "data:image/jpeg;base64,/9j/4QDKRXhpZgAATU0AKgAAAAgABgESAAMAAAA
 const ADMIN_PASSWORD = "Eumerecuso2k26";
 const DEFAULT_SETTINGS = {
   whatsapp: "5567999627359",
-  catalogVersion: 5,
+  catalogVersion: 3,
   instagram: "emr_oficial",
   heroTitle: "EU ME RECUSO",
   heroSub: "Mais do que roupas.<br><b>Uma mentalidade.</b>",
@@ -696,8 +708,6 @@ function defaultProducts(){
     {"id":"emr-1972","name":"Camiseta Lacoste Vermelha","price":39.9,"desc":"Camiseta vermelha básica com logo discreto e acabamento premium.","category":"Camisetas","sizes":["M","G","GG"],"available":true,"isNew":true,"best":false,"image":"assets/IMG_1972.jpg"},
     {"id":"emr-1970","name":"Camiseta Brookfield Crew Branca","price":39.9,"desc":"Camiseta branca Brookfield Crew com estampa náutica em azul-marinho.","category":"Camisetas","sizes":["M","G","GG"],"available":true,"isNew":true,"best":false,"image":"assets/IMG_1970.jpg"},
     {"id":"emr-1969","name":"Camiseta Brookfield Crew Preta","price":39.9,"desc":"Camiseta preta Brookfield Crew com estampa branca de inspiração náutica.","category":"Camisetas","sizes":["M","G","GG"],"available":true,"isNew":true,"best":false,"image":"assets/IMG_1969.jpg"},
-    {"id":"emr-2137","name":"Camiseta Lacoste Lilás Raquetes","price":39.9,"desc":"Camiseta lilás com logo discreto na frente e estampa de raquetes nas costas.","category":"Camisetas","sizes":["M","G","GG"],"available":true,"isNew":true,"best":false,"image":"assets/IMG_2137.PNG"},
-    {"id":"emr-2136","name":"Camiseta Lacoste Creme Raquetes","price":39.9,"desc":"Camiseta creme com logo discreto na frente e estampa de raquetes nas costas.","category":"Camisetas","sizes":["M","G","GG"],"available":true,"isNew":true,"best":false,"image":"assets/IMG_2136.PNG"},
   ];
 }
 
@@ -724,7 +734,7 @@ async function loadData(){
     storedSettings = s ? JSON.parse(s.value) : null;
     settings = s ? {...DEFAULT_SETTINGS, ...storedSettings} : {...DEFAULT_SETTINGS};
   }catch(e){ settings = {...DEFAULT_SETTINGS}; }
-  if(storedProducts && (!storedSettings || storedSettings.catalogVersion !== 5)){
+  if(storedProducts && (!storedSettings || storedSettings.catalogVersion !== 3)){
     const migrationPrices = new Map([
       ["emr-1976",39.9], ["emr-1975",39.9], ["emr-1974",39.9], ["emr-1973",39.9],
       ["emr-1971",39.9], ["emr-1972",39.9], ["emr-1970",39.9], ["emr-1969",39.9],
@@ -733,7 +743,7 @@ async function loadData(){
     const existingIds = new Set(products.map(p=>p.id));
     const additions = defaultProducts().filter(p=>!existingIds.has(p.id));
     if(additions.length) products = products.concat(additions);
-    settings.catalogVersion = 5;
+    settings.catalogVersion = 3;
     await saveProducts();
     await saveSettings();
   }
@@ -839,8 +849,6 @@ const CUSTOM_WPP_INTROS = {
   "emr-1972": "Olá! Vim pelo site da EMR e quero a Camiseta Lacoste Vermelha para destacar o meu look.",
   "emr-1970": "Olá! Vim pelo site da EMR e escolhi a Camiseta Brookfield Crew Branca com estampa náutica.",
   "emr-1969": "Olá! Vim pelo site da EMR e quero a Camiseta Brookfield Crew Preta com estampa náutica.",
-  "emr-2137": "Olá! Vim pelo site da EMR e escolhi a Camiseta Lacoste Lilás Raquetes, com estampa de raquetes nas costas. Quero garantir a minha.",
-  "emr-2136": "Olá! Vim pelo site da EMR e escolhi a Camiseta Lacoste Creme Raquetes, com estampa de raquetes nas costas. Quero garantir a minha.",
 };
 function waMessage(p, size, quantity){
   const intro = CUSTOM_WPP_INTROS[p.id] || "Olá! Vim pelo site da EMR.";
